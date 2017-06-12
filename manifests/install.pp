@@ -129,12 +129,20 @@ define dspace::install ($owner             = $dspace::owner,
      group   => $group,
      mode    => 0644,
      content => template("dspace/custom.properties.erb"),
+     require => Exec["Checkout branch ${git_branch}"],
+     before  => Exec["Build DSpace installer in ${src_dir}"],
    }
+
+->
 
    # Create target directory
    file { "${src_dir}/target":
      ensure => 'directory',
+     require => Exec["Checkout branch ${git_branch}"],
+     before  => Exec["Build DSpace installer in ${src_dir}"],
    }
+
+->
 
    # Create a 'custom.properties' inside target folder
    file { "${src_dir}/target/custom.properties":
@@ -143,7 +151,11 @@ define dspace::install ($owner             = $dspace::owner,
      group   => $group,
      mode    => 0644,
      content => template("dspace/custom.properties.erb"),
+     require => Exec["Checkout branch ${git_branch}"],
+     before  => Exec["Build DSpace installer in ${src_dir}"],
    }
+
+->
 
    # Decide whether to initialize local.cfg (required for DSpace 6+) from a provided file ($local_source_config)
    # Or from the default template (local.cfg.erb)
