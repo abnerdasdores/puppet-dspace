@@ -131,6 +131,11 @@ define dspace::install ($owner             = $dspace::owner,
      content => template("dspace/custom.properties.erb"),
    }
 
+   # Create target directory
+   file { "${src_dir}/target":
+     ensure => 'directory',
+   }
+
    # Create a 'custom.properties' inside target folder
    file { "${src_dir}/target/custom.properties":
      ensure  => file,
