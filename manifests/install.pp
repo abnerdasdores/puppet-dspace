@@ -131,7 +131,14 @@ define dspace::install ($owner             = $dspace::owner,
      content => template("dspace/custom.properties.erb"),
    }
 
-
+   # Create a 'custom.properties' inside target folder
+   file { "${src_dir}/target/custom.properties":
+     ensure  => file,
+     owner   => $owner,
+     group   => $group,
+     mode    => 0644,
+     content => template("dspace/custom.properties.erb"),
+   }
 
    # Decide whether to initialize local.cfg (required for DSpace 6+) from a provided file ($local_source_config)
    # Or from the default template (local.cfg.erb)
